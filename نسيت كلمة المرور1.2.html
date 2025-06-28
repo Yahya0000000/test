@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الأساطير - استعادة كلمة المرور</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ... نفس التنسيقات السابقة ... */
+        .message {
+            margin-bottom: 18px; padding: 11px 15px; border-radius: 9px; text-align: center; font-size: 1rem; display: none;
+        }
+        .message.error {background: rgba(255,70,70,0.18); border: 1px solid #ff4b5c; color: #ff4b5c;}
+        .message.success {background: rgba(61,255,146,0.13); border: 1px solid #17be8b; color: #17be8b;}
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="magic-circle"></div>
+    <div class="magic-circle"></div>
+    <div class="forgot-container floating">
+        <div class="header">
+            <div class="header-icon"><i class="fas fa-unlock-alt"></i></div>
+            <h1>استعادة كلمة المرور</h1>
+            <p>أدخل بريدك الإلكتروني وسنرسل لك رابط استعادة كلمة المرور</p>
+        </div>
+        <div class="message" id="message"></div>
+        <form id="forgotForm" autocomplete="off">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input id="fp-email" type="email" placeholder="البريد الإلكتروني" required>
+            </div>
+            <button type="submit" class="reset-btn">إرسال رابط الاستعادة</button>
+            <div class="back-link">
+                تذكرت كلمة المرور؟ <a href="login-arabic-myth-portal.html">تسجيل الدخول</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 150;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                const size = Math.random() * 3;
+                const duration = 2 + Math.random() * 5;
+                const delay = Math.random() * 5;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${delay}s`;
+                star.style.setProperty('--duration', `${duration}s`);
+                const colors = ['#ffffff', '#a7e9ff', '#ffe7a7', '#d4a7ff'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                star.style.backgroundColor = color;
+                starsContainer.appendChild(star);
+            }
+        }
+        window.addEventListener('load', () => {
+            createStars();
+            document.querySelectorAll('.forgot-container, .magic-circle').forEach(el => {
+                el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.8s, transform 0.8s';
+                    el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+                }, 300);
+            });
+        });
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.zIndex = '2';
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+                this.parentElement.style.zIndex = '1';
+            });
+        });
+        const forgotForm = document.getElementById('forgotForm');
+        const messageBox = document.getElementById('message');
+        function showMessage(msg, type='error') {
+            messageBox.textContent = msg;
+            messageBox.className = 'message ' + type;
+            messageBox.style.display = 'block';
+        }
+        function hideMessage() {
+            messageBox.style.display = 'none';
+        }
+        forgotForm.addEventListener('submit', async function(e){
+            e.preventDefault();
+            hideMessage();
+            const email = document.getElementById('fp-email').value.trim();
+            if(email.length < 5 || !email.includes('@')) return showMessage('يرجى إدخال بريد إلكتروني صحيح.');
+            showMessage('يتم إرسال رابط الاستعادة...', 'success');
+            try {
+                const result = await fetch('http://localhost:5000/api/forgot', {
+                    method: 'POST',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({ email })
+                }).then(res => res.json());
+                if(result.success){
+                    showMessage(result.message || 'تم إرسال الرابط!', 'success');
+                    setTimeout(()=>{ window.location.href = 'login-arabic-myth-portal.html'; }, 2100);
+                } else {
+                    showMessage(result.error || 'حدث خطأ أثناء الإرسال.', 'error');
+                }
+            } catch (err) {
+                showMessage('تعذر الاتصال بالخادم.', 'error');
+            }
+        });
+    </script>
+</body>
+</html>
