@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الأساطير - عالم السحر والإمكانيات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'El Messiri', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            position: relative;
+            color: #e6e6e6;
+        }
+        
+        /* تأثير النجوم */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 4s) infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        /* التأثيرات الخاصة */
+        .magic-circle {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(23, 190, 187, 0.1) 0%, rgba(23, 190, 187, 0) 70%);
+            filter: blur(10px);
+            animation: rotate 25s linear infinite;
+            z-index: -1;
+        }
+        
+        .magic-circle:nth-child(1) {
+            top: 10%;
+            left: 20%;
+            width: 250px;
+            height: 250px;
+            animation-duration: 40s;
+        }
+        
+        .magic-circle:nth-child(2) {
+            bottom: 15%;
+            right: 25%;
+            width: 350px;
+            height: 350px;
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* التنقل بين الصفحات */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .page.active {
+            display: flex;
+        }
+        
+        /* بطاقة تسجيل الدخول */
+        .login-container, .forgot-container, .signup-container, .dashboard-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 450px;
+            padding: 40px 30px;
+            background: rgba(10, 15, 35, 0.7);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(23, 190, 187, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transform-style: preserve-3d;
+            overflow: hidden;
+        }
+        
+        .login-container::before, 
+        .forgot-container::before, 
+        .signup-container::before, 
+        .dashboard-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent, 
+                rgba(168, 239, 255, 0.3),
+                transparent 30%
+            );
+            animation: rotate-border 6s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate-border {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #17bebb, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(23, 190, 187, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #a0aec0;
+        }
+        
+        .header-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #17bebb;
+            text-shadow: 0 0 15px rgba(23, 190, 187, 0.7);
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #17bebb;
+            font-size: 1.2rem;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: rgba(20, 25, 45, 0.7);
+            border: 1px solid rgba(23, 190, 187, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #17bebb;
+            box-shadow: 0 0 15px rgba(23, 190, 187, 0.3);
+        }
+        
+        .input-group input::placeholder {
+            color: #718096;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        
+        .remember {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember input {
+            margin-left: 8px;
+            accent-color: #17bebb;
+        }
+        
+        .forgot-password {
+            color: #17bebb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(23, 190, 187, 0.7);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #17bebb, #4facfe);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(23, 190, 187, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            transition: all 0.6s ease;
+        }
+        
+        .btn:hover::after {
+            transform: rotate(30deg) translate(20%, 20%);
+        }
+        
+        .separator {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #718096;
+        }
+        
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(23, 190, 187, 0.5), transparent);
+        }
+        
+        .separator span {
+            padding: 0 15px;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(20, 25, 45, 0.7);
+            border: 1px solid rgba(23, 190, 187, 0.2);
+            color: #17bebb;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-5px);
+            background: rgba(23, 190, 187, 0.1);
+            box-shadow: 0 5px 15px rgba(23, 190, 187, 0.2);
+        }
+        
+        .link-container {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 1rem;
+        }
+        
+        .link-container a {
+            color: #17bebb;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .link-container a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(23, 190, 187, 0.7);
+        }
+        
+        /* التأثيرات عند التمرير */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* رسالة النظام */
+        .message {
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            border-radius: 9px;
+            text-align: center;
+            font-size: 1rem;
+            display: none;
+        }
+        
+        .message.error {
+            background: rgba(255, 70, 70, 0.18);
+            border: 1px solid #ff4b5c;
+            color: #ff4b5c;
+        }
+        
+        .message.success {
+            background: rgba(61, 255, 146, 0.13);
+            border: 1px solid #17be8b;
+            color: #17be8b;
+        }
+        
+        /* لوحة التحكم */
+        .dashboard-actions {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        
+        .dash-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(20,25,45,0.7);
+            border: 1px solid rgba(23,190,187,0.2);
+            color: #17bebb;
+            border-radius: 14px;
+            width: 110px;
+            height: 110px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(23,190,187,0.07);
+        }
+        
+        .dash-btn i {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .dash-btn:hover {
+            transform: translateY(-7px) scale(1.07);
+            background: rgba(23,190,187,0.13);
+            box-shadow: 0 8px 22px rgba(23,190,187,0.24);
+        }
+        
+        .welcome {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            margin: 15px 0 30px 0;
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .login-container, .forgot-container, .signup-container, .dashboard-container {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .input-group input {
+                padding: 12px 12px 12px 45px;
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 14px;
+                font-size: 1.1rem;
+            }
+            
+            .dash-btn {
+                width: 90px;
+                height: 90px;
+                font-size: 0.95rem;
+            }
+            
+            .dash-btn i {
+                font-size: 1.6rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .options {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* شريط التنقل */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 15, 35, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #17bebb, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(23, 190, 187, 0.3);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: #a0aec0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        
+        .nav-links a:hover {
+            color: #17bebb;
+            background: rgba(23, 190, 187, 0.1);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-info span {
+            color: #a0aec0;
+        }
+        
+        .user-info button {
+            background: rgba(23, 190, 187, 0.2);
+            border: none;
+            color: #17bebb;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .user-info button:hover {
+            background: rgba(23, 190, 187, 0.3);
+        }
+        
+        /* دليل النشر */
+        .deploy-guide {
+            background: rgba(10, 15, 35, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(23, 190, 187, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .deploy-guide h2 {
+            color: #17bebb;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 2.2rem;
+        }
+        
+        .deploy-steps {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .step {
+            background: rgba(20, 25, 45, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #17bebb;
+        }
+        
+        .step h3 {
+            color: #4facfe;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .step p {
+            color: #a0aec0;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: #17be8b;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .firebase-btn {
+            display: block;
+            width: 300px;
+            margin: 30px auto;
+            padding: 15px;
+            background: linear-gradient(135deg, #FFCB2B, #FF9E0D);
+            color: #1a1a2e;
+            text-align: center;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 158, 13, 0.4);
+        }
+        
+        .firebase-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 158, 13, 0.6);
+        }
+        
+        .firebase-btn i {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <div class="navbar">
+        <div class="logo">بوابة الأساطير</div>
+        <div class="nav-links">
+            <a href="#" onclick="showPage('login')">تسجيل الدخول</a>
+            <a href="#" onclick="showPage('signup')">إنشاء حساب</a>
+            <a href="#" onclick="showPage('dashboard')">لوحة التحكم</a>
+        </div>
+        <div class="user-info">
+            <span id="username-display">زائر</span>
+            <button onclick="logout()">تسجيل الخروج</button>
+        </div>
+    </div>
+    
+    <!-- تأثير النجوم -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- الدوائر السحرية -->
+    <div class="magic-circle"></div>
+    <div class="magic-circle"></div>
+    
+    <!-- الصفحات -->
+    <!-- صفحة تسجيل الدخول -->
+    <div id="login-page" class="page active">
+        <div class="login-container floating">
+            <div class="header">
+                <div class="header-icon">
+                    <i class="fas fa-dragon"></i>
+                </div>
+                <h1>بوابة الأساطير</h1>
+                <p>ادخل إلى عالم السحر والإمكانيات اللا محدودة</p>
+            </div>
+            <div class="message" id="login-message"></div>
+            <form id="loginForm">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input id="username" type="text" placeholder="اسم المستخدم" required autocomplete="username">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input id="password" type="password" placeholder="كلمة المرور" required autocomplete="current-password">
+                </div>
+                
+                <div class="options">
+                    <div class="remember">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">تذكرني</label>
+                    </div>
+                    <a href="#" onclick="showPage('forgot')" class="forgot-password">هل نسيت كلمة المرور؟</a>
+                </div>
+                
+                <button type="submit" class="btn">تسجيل الدخول</button>
+                
+                <div class="separator">
+                    <span>أو سجل الدخول بواسطة</span>
+                </div>
+                
+                <div class="social-login">
+                    <div class="social-btn" data-social="google" tabindex="0">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <div class="social-btn" data-social="facebook" tabindex="0">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="social-btn" data-social="twitter" tabindex="0">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                </div>
+                
+                <div class="link-container">
+                    ليس لديك حساب؟ <a href="#" onclick="showPage('signup')">انشئ حساب جديد</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- صفحة استعادة كلمة المرور -->
+    <div id="forgot-page" class="page">
+        <div class="forgot-container floating">
+            <div class="header">
+                <div class="header-icon"><i class="fas fa-unlock-alt"></i></div>
+                <h1>استعادة كلمة المرور</h1>
+                <p>أدخل بريدك الإلكتروني وسنرسل لك رابط استعادة كلمة المرور</p>
+            </div>
+            <div class="message" id="forgot-message"></div>
+            <form id="forgotForm">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input id="fp-email" type="email" placeholder="البريد الإلكتروني" required>
+                </div>
+                <button type="submit" class="btn">إرسال رابط الاستعادة</button>
+                <div class="link-container">
+                    تذكرت كلمة المرور؟ <a href="#" onclick="showPage('login')">تسجيل الدخول</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- صفحة إنشاء حساب -->
+    <div id="signup-page" class="page">
+        <div class="signup-container floating">
+            <div class="header">
+                <div class="header-icon"><i class="fas fa-user-plus"></i></div>
+                <h1>إنشاء حساب جديد</h1>
+                <p>انضم إلى بوابة الأساطير وابدأ رحلتك السحرية!</p>
+            </div>
+            <div class="message" id="signup-message"></div>
+            <form id="signupForm">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input id="new-username" type="text" placeholder="اسم المستخدم" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input id="new-email" type="email" placeholder="البريد الإلكتروني" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input id="new-password" type="password" placeholder="كلمة المرور" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input id="confirm-password" type="password" placeholder="تأكيد كلمة المرور" required>
+                </div>
+                <button type="submit" class="btn">إنشاء الحساب</button>
+                <div class="link-container">
+                    لديك حساب بالفعل؟ <a href="#" onclick="showPage('login')">تسجيل الدخول</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- صفحة لوحة التحكم -->
+    <div id="dashboard-page" class="page">
+        <div class="dashboard-container floating">
+            <div class="header-icon"><i class="fas fa-dragon"></i></div>
+            <h1>لوحة تحكم الأساطير</h1>
+            <div class="welcome" id="welcome-message">مرحبًا بك في عالم السحر والإمكانيات!<br>يمكنك بدء رحلتك أو إدارة حسابك من هنا.</div>
+            <div class="dashboard-actions">
+                <div class="dash-btn" onclick="showFeatureMessage()">
+                    <i class="fas fa-book-spells"></i>
+                    <span>موسوعة الأساطير</span>
+                </div>
+                <div class="dash-btn" onclick="showFeatureMessage()">
+                    <i class="fas fa-hat-wizard"></i>
+                    <span>تجربة السحر</span>
+                </div>
+                <div class="dash-btn" onclick="showFeatureMessage()">
+                    <i class="fas fa-user"></i>
+                    <span>ملفي الشخصي</span>
+                </div>
+            </div>
+            <button class="btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </button>
+        </div>
+    </div>
+    
+    <!-- صفحة دليل النشر على Firebase -->
+    <div id="deploy-page" class="page">
+        <div class="deploy-guide floating">
+            <h2><i class="fas fa-fire"></i> دليل النشر على Firebase</h2>
+            
+            <div class="deploy-steps">
+                <div class="step">
+                    <h3>الخطوة 1: إنشاء حساب Firebase</h3>
+                    <p>اذهب إلى <a href="https://firebase.google.com/" target="_blank" style="color:#4facfe;">موقع Firebase</a> وقم بتسجيل الدخول باستخدام حساب Google الخاص بك.</p>
+                    <p>انقر على "إضافة مشروع" وأعطه اسمًا مثل "mythical-portal".</p>
+                </div>
+                
+                <div class="step">
+                    <h3>الخطوة 2: تثبيت أدوات Firebase</h3>
+                    <p>سوف تحتاج إلى تثبيت Node.js و Firebase CLI على جهازك:</p>
+                    <div class="code">
+                        # تثبيت Node.js من الموقع الرسمي<br>
+                        # ثم تثبيت Firebase CLI عبر سطر الأوامر:<br>
+                        npm install -g firebase-tools
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3>الخطوة 3: تسجيل الدخول إلى Firebase</h3>
+                    <p>افتح Terminal أو Command Prompt وقم بتسجيل الدخول:</p>
+                    <div class="code">
+                        firebase login
+                    </div>
+                    <p>سيفتح متصفحك للسماح بالوصول إلى حساب Google الخاص بك.</p>
+                </div>
+                
+                <div class="step">
+                    <h3>الخطوة 4: تهيئة المشروع</h3>
+                    <p>أنشئ مجلدًا للمشروع على جهازك، وأضف ملف index.html (هذا الملف).</p>
+                    <p>في مجلد المشروع، قم بتهيئة Firebase:</p>
+                    <div class="code">
+                        firebase init
+                    </div>
+                    <p>اختر "Hosting" باستخدام الأسهم وزر المسافة، ثم Enter.</p>
+                    <p>اختر مشروعك من القائمة أو أنشئ مشروعًا جديدًا.</p>
+                    <p>عند السؤال "What do you want to use as your public directory?" اكتب <code>.</code> (نقطة واحدة فقط).</p>
+                    <p>اختر "Yes" لـ "Configure as a single-page app".</p>
+                </div>
+                
+                <div class="step">
+                    <h3>الخطوة 5: النشر!</h3>
+                    <p>الآن قم بنشر موقعك باستخدام الأمر التالي:</p>
+                    <div class="code">
+                        firebase deploy
+                    </div>
+                    <p>بعد اكتمال النشر، ستحصل على رابط لموقعك على الويب!</p>
+                </div>
+                
+                <div class="step">
+                    <h3>الخطوة 6: إدارة موقعك</h3>
+                    <p>يمكنك إدارة موقعك من خلال <a href="https://console.firebase.google.com/" target="_blank" style="color:#4facfe;">Firebase Console</a>:</p>
+                    <ul style="color:#a0aec0; margin-left:20px; margin-top:10px;">
+                        <li>عرض إحصائيات الزوار</li>
+                        <li>إعداد نطاق مخصص</li>
+                        <li>إعداد شهادة SSL</li>
+                        <li>إصدارات متعددة من موقعك</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <a href="https://firebase.google.com/" class="firebase-btn" target="_blank">
+                ابدأ مع Firebase الآن <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // إنشاء النجوم
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 150;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // أحجام وألوان عشوائية
+                const size = Math.random() * 3;
+                const duration = 2 + Math.random() * 5;
+                const delay = Math.random() * 5;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${delay}s`;
+                star.style.setProperty('--duration', `${duration}s`);
+                
+                // لون عشوائي للنجوم
+                const colors = ['#ffffff', '#a7e9ff', '#ffe7a7', '#d4a7ff'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                star.style.backgroundColor = color;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // تأثيرات عند التركيز على الحقول
+        function setupInputEffects() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                    this.parentElement.style.zIndex = '2';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                    this.parentElement.style.zIndex = '1';
+                });
+            });
+        }
+        
+        // إظهار رسالة
+        function showMessage(page, msg, type = 'error') {
+            const messageBox = document.getElementById(`${page}-message`);
+            messageBox.textContent = msg;
+            messageBox.className = 'message ' + type;
+            messageBox.style.display = 'block';
+        }
+        
+        // إخفاء رسالة
+        function hideMessage(page) {
+            const messageBox = document.getElementById(`${page}-message`);
+            messageBox.style.display = 'none';
+        }
+        
+        // إظهار صفحة معينة وإخفاء الباقي
+        function showPage(pageId) {
+            // إخفاء جميع الصفحات
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // إظهار الصفحة المطلوبة
+            document.getElementById(`${pageId}-page`).classList.add('active');
+            
+            // تحديث شريط التنقل
+            updateNavbar();
+        }
+        
+        // تحديث شريط التنقل بناءً على حالة المستخدم
+        function updateNavbar() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const usernameDisplay = document.getElementById('username-display');
+            
+            if (user) {
+                usernameDisplay.textContent = user.username;
+            } else {
+                usernameDisplay.textContent = 'زائر';
+            }
+        }
+        
+        // تسجيل الخروج
+        function logout() {
+            localStorage.removeItem('currentUser');
+            showPage('login');
+            updateNavbar();
+        }
+        
+        // تسجيل الدخول
+        function login(username, password) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                // تسجيل الدخول ناجح
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showPage('dashboard');
+                updateNavbar();
+                
+                // تحديث رسالة الترحيب
+                document.getElementById('welcome-message').innerHTML = 
+                    `مرحبًا بك ${user.username} في عالم السحر والإمكانيات!<br>يمكنك بدء رحلتك أو إدارة حسابك من هنا.`;
+                
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // تسجيل مستخدم جديد
+        function signup(username, email, password) {
+            // التحقق من وجود المستخدم مسبقًا
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            if (users.some(u => u.username === username)) {
+                return { success: false, message: 'اسم المستخدم موجود مسبقًا' };
+            }
+            
+            if (users.some(u => u.email === email)) {
+                return { success: false, message: 'البريد الإلكتروني موجود مسبقًا' };
+            }
+            
+            // إنشاء مستخدم جديد
+            const newUser = {
+                username,
+                email,
+                password,
+                createdAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // تسجيل دخول المستخدم الجديد
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            return { success: true };
+        }
+        
+        // إظهار رسالة للميزات غير المتاحة
+        function showFeatureMessage() {
+            alert('هذه الميزة قيد التطوير! شكرًا لتفهمك.');
+        }
+        
+        // عند تحميل الصفحة
+        window.addEventListener('load', () => {
+            createStars();
+            setupInputEffects();
+            updateNavbar();
+            
+            // إظهار دليل النشر أول مرة
+            if (!localStorage.getItem('firstVisit')) {
+                showPage('deploy');
+                localStorage.setItem('firstVisit', 'true');
+            } 
+            // التحقق من وجود مستخدم مسجل الدخول
+            else {
+                const currentUser = localStorage.getItem('currentUser');
+                if (currentUser) {
+                    showPage('dashboard');
+                    
+                    // تحديث رسالة الترحيب
+                    const user = JSON.parse(currentUser);
+                    document.getElementById('welcome-message').innerHTML = 
+                        `مرحبًا بك ${user.username} في عالم السحر والإمكانيات!<br>يمكنك بدء رحلتك أو إدارة حسابك من هنا.`;
+                } else {
+                    showPage('login');
+                }
+            }
+            
+            // تسجيل الدخول
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                hideMessage('login');
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (!username || !password) {
+                    showMessage('login', 'يرجى إدخال اسم المستخدم وكلمة المرور.', 'error');
+                    return;
+                }
+                
+                // محاكاة تحميل
+                showMessage('login', 'يتم التحقق من البيانات...', 'success');
+                
+                setTimeout(() => {
+                    if (login(username, password)) {
+                        showMessage('login', 'تم تسجيل الدخول بنجاح!', 'success');
+                    } else {
+                        showMessage('login', 'اسم المستخدم أو كلمة المرور غير صحيحة.', 'error');
+                    }
+                }, 1500);
+            });
+            
+            // استعادة كلمة المرور
+            document.getElementById('forgotForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                hideMessage('forgot');
+                
+                const email = document.getElementById('fp-email').value.trim();
+                
+                if (!email.includes('@')) {
+                    showMessage('forgot', 'يرجى إدخال بريد إلكتروني صحيح.', 'error');
+                    return;
+                }
+                
+                // محاكاة إرسال
+                showMessage('forgot', 'جاري إرسال رابط الاستعادة...', 'success');
+                
+                setTimeout(() => {
+                    showMessage('forgot', 'تم إرسال رابط الاستعادة إلى بريدك الإلكتروني.', 'success');
+                    
+                    // العودة إلى صفحة تسجيل الدخول بعد ثانيتين
+                    setTimeout(() => {
+                        showPage('login');
+                    }, 2000);
+                }, 1500);
+            });
+            
+            // إنشاء حساب
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                hideMessage('signup');
+                
+                const username = document.getElementById('new-username').value.trim();
+                const email = document.getElementById('new-email').value.trim();
+                const password = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                // التحقق من صحة البيانات
+                if (username.length < 3) {
+                    showMessage('signup', 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل.', 'error');
+                    return;
+                }
+                
+                if (!/^[\w\.\-\u0600-\u06FF]+$/.test(username)) {
+                    showMessage('signup', 'اسم المستخدم يحتوي على حروف غير مسموحة.', 'error');
+                    return;
+                }
+                
+                if (email.length < 5 || !email.includes('@')) {
+                    showMessage('signup', 'يرجى إدخال بريد إلكتروني صحيح.', 'error');
+                    return;
+                }
+                
+                if (password.length < 5) {
+                    showMessage('signup', 'كلمة المرور يجب أن تكون 5 أحرف أو أكثر.', 'error');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showMessage('signup', 'كلمتا المرور غير متطابقتين.', 'error');
+                    return;
+                }
+                
+                // محاكاة تحميل
+                showMessage('signup', 'جاري إنشاء الحساب...', 'success');
+                
+                setTimeout(() => {
+                    const result = signup(username, email, password);
+                    
+                    if (result.success) {
+                        showMessage('signup', 'تم إنشاء الحساب بنجاح!', 'success');
+                        
+                        // الانتقال إلى لوحة التحكم بعد ثانيتين
+                        setTimeout(() => {
+                            showPage('dashboard');
+                        }, 2000);
+                    } else {
+                        showMessage('signup', result.message, 'error');
+                    }
+                }, 1500);
+            });
+            
+            // تفعيل أزرار الشبكات الاجتماعية
+            document.querySelectorAll('.social-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const social = btn.getAttribute('data-social');
+                    let name = '';
+                    if(social === 'google') name = 'Google';
+                    if(social === 'facebook') name = 'Facebook';
+                    if(social === 'twitter') name = 'Twitter';
+                    showMessage('login', `ميزة تسجيل الدخول عبر ${name} غير مفعلة حالياً.`, 'error');
+                });
+                
+                btn.addEventListener('keydown', function(e){
+                    if(e.key === 'Enter' || e.key === ' ') btn.click();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
